@@ -85,12 +85,25 @@ const First = styled.div`
 
 const Card = styled.div``;
 
-function closeModal() {
-  setIsOpen(false);
-}
-
 function App() {
   Modal.setAppElement("#root");
+
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [brand, setBrand] = useState("");
+  const [inventory, setInventory] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState(-1);
+  const [edit, setEdit] = useState(false);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/inventory/").then((res) => {
+      setInventory(res.data);
+    });
+  }, [submitted]);
 
   const resetInputs = () => {
     setName("");
@@ -126,7 +139,7 @@ function App() {
       `http://localhost:5000/api/inventory/${inventory[selected]._id}`,
       editedInventoryObject
     );
-  }
+  };
 
   const deleteInventoryItem = async () => {
     await axios.delete(
@@ -141,23 +154,6 @@ function App() {
     setQuantity(inventory[selected].quantity);
     setBrand(inventory[selected].brand);
   };
-
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [brand, setBrand] = useState("");
-  const [inventory, setInventory] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(-1);
-  const [edit, setEdit] = useState(false);
-
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/inventory/").then((res) => {
-      setInventory(res.data);
-    });
-  }, [submitted]);
 
   return (
     <Container>
@@ -215,7 +211,9 @@ function App() {
       })}
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        onRequestClose={() => {
+          setIsOpen(false);
+        }}
         style={customStyles}
         contentLabel="Example Modal"
       >

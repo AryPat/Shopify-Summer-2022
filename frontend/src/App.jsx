@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import styled from "styled-components";
 import axios from "axios";
-
 import Modal from "react-modal";
 
 const Container = styled.div`
@@ -42,22 +41,9 @@ const Enter = styled.button`
     &:hover {
       color: black;
       background: #e6e6e6;
-      font-weight: bold;
       border: 5px solid #d2d2d4;
     }
   }
-`;
-
-const Text = styled.div`
-  justify-self: end;
-  align-self: center;
-  background: #ffffff;
-  border: 5px solid #f5f7fa;
-  box-sizing: border-box;
-  box-shadow: 0px 8px 24px #eff3f9;
-  border-radius: 40px;
-  padding: 1rem;
-  width: 20%;
 `;
 
 const customStyles = {
@@ -83,7 +69,19 @@ const First = styled.div`
   width: 100%;
 `;
 
-const Card = styled.div``;
+const Card = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background: #ffffff;
+  border: 5px solid #f5f7fa;
+  box-sizing: border-box;
+  box-shadow: 0px 8px 24px #eff3f9;
+  border-radius: 40px;
+  padding: 1rem;
+  margin: 0.3rem;
+  width: 60%;
+`;
 
 function App() {
   Modal.setAppElement("#root");
@@ -104,6 +102,16 @@ function App() {
       setInventory(res.data);
     });
   }, [submitted]);
+
+  useEffect(() => {
+    selected == -1
+      ? (document.getElementById("DeleteButton").disabled = true)
+      : (document.getElementById("DeleteButton").disabled = false);
+
+    selected == -1
+      ? (document.getElementById("EditButton").disabled = true)
+      : (document.getElementById("EditButton").disabled = false);
+  }, [selected]);
 
   const resetInputs = () => {
     setName("");
@@ -170,7 +178,7 @@ function App() {
         </Enter>
         <Enter
           enabled
-          id="buttonControl"
+          id="EditButton"
           onClick={() => {
             populateModel();
             setEdit(true);
@@ -181,7 +189,7 @@ function App() {
         </Enter>
         <Enter
           enabled
-          id="buttonControl"
+          id="DeleteButton"
           onClick={async () => {
             await deleteInventoryItem();
             setSubmitted(!submitted);
@@ -191,7 +199,7 @@ function App() {
         </Enter>
         <Enter
           enabled
-          id="buttonControl"
+          id="ExportDataButton"
           onClick={() => {
             onSubmit();
           }}
@@ -199,16 +207,32 @@ function App() {
           Export Data to CSV
         </Enter>
       </Buttons>
+      {inventory.length != 0 && (
+        <Card style={{background:"#DBEFF4"}}>
+          <div>Name</div>
+          <div>Price</div>
+          <div>Description</div>
+          <div>Quantity</div>
+          <div>Brand</div>
+        </Card>
+      )}
+
+      {inventory.length == 0 && (
+        <Card>There is no Inventory at this moment.</Card>
+      )}
 
       {Object.keys(inventory).map(function (key, index) {
         return (
           <Card onClick={() => setSelected(index)}>
-            {inventory[key].name};{inventory[key].price};
-            {inventory[key].description};{inventory[key].quantity};
-            {inventory[key].brand}
+            <div>{inventory[key].name}</div>
+            <div>{inventory[key].price}</div>
+            <div>{inventory[key].description}</div>
+            <div>{inventory[key].quantity}</div>
+            <div>{inventory[key].brand}</div>
           </Card>
         );
       })}
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => {
@@ -227,7 +251,7 @@ function App() {
         </First>
         <First>
           <input
-            type="text"
+            type="number"
             placeholder="Inventory Price"
             value={price}
             onChange={(e) => setPrice(e.target?.value)}
@@ -243,7 +267,7 @@ function App() {
         </First>
         <First>
           <input
-            type="text"
+            type="number"
             placeholder="Inventory Quantity"
             value={quantity}
             onChange={(e) => setQuantity(e.target?.value)}
@@ -257,7 +281,7 @@ function App() {
             onChange={(e) => setBrand(e.target?.value)}
           ></input>
         </First>
-        <button
+        <Enter
           onClick={() => {
             setIsOpen(false);
             resetInputs();
@@ -265,9 +289,11 @@ function App() {
           }}
         >
           close
-        </button>
+        </Enter>
         {edit ? (
-          <button
+          <Enter
+            id="edit"
+            enabled
             onClick={async () => {
               setIsOpen(false);
               await editInventoryItem();
@@ -276,9 +302,11 @@ function App() {
             }}
           >
             Edit
-          </button>
+          </Enter>
         ) : (
-          <button
+          <Enter
+            id="create"
+            enabled
             onClick={async () => {
               await submitNewInventoryItem();
               setIsOpen(false);
@@ -286,7 +314,7 @@ function App() {
             }}
           >
             create
-          </button>
+          </Enter>
         )}
       </Modal>
     </Container>

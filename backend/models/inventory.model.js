@@ -38,10 +38,7 @@ const inventorySchema = new Schema({
   brand: {
     type: String,
     required: 'Brand type must be provided!',
-  },
-  tags: {
-    type: [String],
-  },
+  }
 });
 
 module.exports = model('Inventory', inventorySchema);

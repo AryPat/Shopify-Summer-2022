@@ -10,6 +10,10 @@ const { Schema, model } = mongoose;
  * @property {String}       description     Inventory description
  * @property {Quantity}     quantity        number of same inventory items
  * @property {String}       brand           Inventory brand
+ * 
+ * Validation is done within the Schema itself 
+ * Hence there being no need to have separate validation methods 
+ * that run before hitting the end points
  */
 const inventorySchema = new Schema({
   name: {

@@ -11,7 +11,7 @@ router.put("/csv", (req, res) => {
     { id: "brand", title: "Inventory Brand" },
   ];
   try {
-    exportCSV.csvExporter("InventoryData.csv", headers).writeRecords(req.body);
+    exportCSV.csvExporter("ExportedCsvFile/InventoryData.csv", headers).writeRecords(req.body);
     res.status(200).json("Successfully Downloaded InventoryData.csv");
   } catch (err) {
     res.status(500);

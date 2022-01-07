@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 /**
@@ -10,19 +10,17 @@ const { Schema, model } = mongoose;
  * @property {String}       description     Inventory description
  * @property {Quantity}     quantity        number of same inventory items
  * @property {String}       brand           Inventory brand
- * @property {[String]}     tags            Inventory Tags
  */
-
 const inventorySchema = new Schema({
   name: {
     type: String,
     trim: true,
-    required: 'Name must not be empty!',
+    required: "Name must not be empty!",
   },
   price: {
     type: Number,
     required: true,
-    min: [0, 'Price cannot be less then 0!'],
+    min: [0, "Price cannot be less then 0!"],
   },
   description: {
     type: String,
@@ -33,15 +31,12 @@ const inventorySchema = new Schema({
   quantity: {
     type: Number,
     required: true,
-    min: [1, 'Quantity cannot be below 1!'],
+    min: [1, "Quantity cannot be below 1!"],
   },
   brand: {
     type: String,
-    required: 'Brand type must be provided!',
-  },
-  tags: {
-    type: [String],
+    required: "Brand type must be provided!",
   },
 });
 
-module.exports = model('Inventory', inventorySchema);
+module.exports = model("Inventory", inventorySchema);

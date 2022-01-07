@@ -8,11 +8,11 @@ const createCSV = (inventory) => {
   const headers = ["name", "price", "description", "quantity", "brand"];
 
   // Append headers into string equivalent of csv
-  let csv = headers.join(',')
+  let csv = headers.join(",");
 
   // Append data into string equivalent of csv
   inventory.forEach((item) => {
-    csv += `\n` + headers.map(key => item[key]).join(',')
+    csv += `\n` + headers.map((key) => item[key]).join(",");
   });
 
   return csv;

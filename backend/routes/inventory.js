@@ -2,6 +2,12 @@ const inventorySchema = require("../models/inventory.model");
 const router = require("express").Router();
 const { createCSV } = require("../services/ExportCsv.js");
 
+/**
+ * Get inventory as a CSV
+ * 
+ * @param {Object} req the request body
+ * @param {Object} res the response object
+ */
 router.get("/csv", (req, res) => {
   inventorySchema
     .find()
@@ -12,6 +18,7 @@ router.get("/csv", (req, res) => {
     })
     .catch((err) => res.status(400).json(err));
 });
+
 
 router.get("/", (req, res) => {
   inventorySchema

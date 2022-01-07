@@ -1,4 +1,4 @@
-const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 
 /**
  * To store metics in a CSV file
@@ -6,12 +6,12 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
  * @returns {object} the headers of CVS file
  */
 const csvExporter = (path, header) =>
- createCsvWriter({
-   path: path,
-   header: header,
-   headerIdDelimiter: ".",
- });
+  createCsvWriter({
+    path: path,
+    header: header,
+    headerIdDelimiter: ".",
+  });
 
- module.exports = {
-    csvExporter,
-  };
+module.exports = {
+  csvExporter,
+};

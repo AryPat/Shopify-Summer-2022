@@ -155,6 +155,12 @@ function App() {
     );
   };
 
+  const exportCSV = async () => {
+    await axios.put(
+      `http://localhost:5000/api/inventory/csv`, inventory
+    );
+  }
+
   const populateModel = () => {
     setName(inventory[selected].name);
     setPrice(inventory[selected].price);
@@ -200,8 +206,8 @@ function App() {
         <Enter
           enabled
           id="ExportDataButton"
-          onClick={() => {
-            onSubmit();
+          onClick={async () => {
+            await exportCSV();
           }}
         >
           Export Data to CSV

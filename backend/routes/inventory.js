@@ -4,7 +4,7 @@ const { createCSV } = require("../services/ExportCsv.js");
 
 /**
  * Get inventory as a CSV
- * 
+ *
  * @param {Object} req the request body
  * @param {Object} res the response object
  */
@@ -19,7 +19,11 @@ router.get("/csv", (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
-
+/**
+ * Get all inventory
+ *
+ * @param {Object} req the request body
+ */
 router.get("/", (req, res) => {
   inventorySchema
     .find()
@@ -29,6 +33,12 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
+/**
+ * Get inventory as a CSV
+ *
+ * @param {Object} req the request body
+ * @param {Object} res the response object
+ */
 router.post("/", (req, res) => {
   const { name, price, description, quantity, brand } = req.body;
   const newItem = new inventorySchema({
@@ -44,6 +54,13 @@ router.post("/", (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
+/**
+ * Edit specific inventory item
+ *
+ * @param {Object} req the request body
+ * @param {Object} res the response object
+ * @query {String} id the inventory object id
+ */
 router.put("/:id", (req, res) => {
   inventorySchema.findById(req.params.id).then((newInventory) => {
     for (const element in req.body) {
@@ -56,6 +73,13 @@ router.put("/:id", (req, res) => {
   });
 });
 
+/**
+ * Delete specific inventory
+ *
+ * @param {Object} req the request body
+ * @param {Object} res the response object
+ * @query {String} id the inventory object id
+ */
 router.delete("/:id", (req, res) => {
   inventorySchema.findByIdAndRemove(req.params.id, function (err) {
     if (!err) {

@@ -10,9 +10,7 @@ const { Schema, model } = mongoose;
  * @property {String}       description     Inventory description
  * @property {Quantity}     quantity        number of same inventory items
  * @property {String}       brand           Inventory brand
- * @property {[String]}     tags            Inventory Tags
  */
-
 const inventorySchema = new Schema({
   name: {
     type: String,

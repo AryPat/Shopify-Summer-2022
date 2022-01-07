@@ -70,7 +70,6 @@ const First = styled.div`
 `;
 
 const Card = styled.div`
-
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -82,7 +81,8 @@ const Card = styled.div`
   padding: 1rem;
   margin: 0.3rem;
   width: 60%;
-  border: ${props => (props.chosen ? "2px solid #DBEFF4" : "5px solid #f5f7fa")};
+  border: ${(props) =>
+    props.chosen ? "2px solid #DBEFF4" : "5px solid #f5f7fa"};
   &:hover {
     color: black;
     background: #e6e6e6;
@@ -163,10 +163,8 @@ function App() {
   };
 
   const exportCSV = async () => {
-    await axios.put(
-      `http://localhost:5000/api/inventory/csv`, inventory
-    );
-  }
+    await axios.put(`http://localhost:5000/api/inventory/csv`, inventory);
+  };
 
   const populateModel = () => {
     setName(inventory[selected].name);
@@ -221,7 +219,7 @@ function App() {
         </Enter>
       </Buttons>
       {inventory.length != 0 && (
-        <Card style={{background:"#DBEFF4"}}>
+        <Card style={{ background: "#DBEFF4" }}>
           <div>Name</div>
           <div>Price</div>
           <div>Description</div>
@@ -236,7 +234,7 @@ function App() {
 
       {Object.keys(inventory).map(function (key, index) {
         return (
-          <Card onClick={() => setSelected(index)} chosen={selected==index}>
+          <Card onClick={() => setSelected(index)} chosen={selected == index}>
             <div>{inventory[key].name}</div>
             <div>{inventory[key].price}</div>
             <div>{inventory[key].description}</div>

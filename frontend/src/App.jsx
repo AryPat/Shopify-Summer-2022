@@ -70,6 +70,7 @@ const First = styled.div`
 `;
 
 const Card = styled.div`
+
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -81,6 +82,12 @@ const Card = styled.div`
   padding: 1rem;
   margin: 0.3rem;
   width: 60%;
+  border: ${props => (props.chosen ? "2px solid #DBEFF4" : "5px solid #f5f7fa")};
+  &:hover {
+    color: black;
+    background: #e6e6e6;
+    border: 2px solid #d2d2d4;
+  }
 `;
 
 function App() {
@@ -104,14 +111,14 @@ function App() {
   }, [submitted]);
 
   useEffect(() => {
-    selected == -1
+    selected == -1 || inventory.length == 0
       ? (document.getElementById("DeleteButton").disabled = true)
       : (document.getElementById("DeleteButton").disabled = false);
 
-    selected == -1
+    selected == -1 || inventory.length == 0
       ? (document.getElementById("EditButton").disabled = true)
       : (document.getElementById("EditButton").disabled = false);
-  }, [selected]);
+  }, [selected, inventory]);
 
   const resetInputs = () => {
     setName("");
@@ -229,7 +236,7 @@ function App() {
 
       {Object.keys(inventory).map(function (key, index) {
         return (
-          <Card onClick={() => setSelected(index)}>
+          <Card onClick={() => setSelected(index)} chosen={selected==index}>
             <div>{inventory[key].name}</div>
             <div>{inventory[key].price}</div>
             <div>{inventory[key].description}</div>
@@ -317,6 +324,7 @@ function App() {
               await submitNewInventoryItem();
               setIsOpen(false);
               setSubmitted(!submitted);
+              resetInputs();
             }}
           >
             create

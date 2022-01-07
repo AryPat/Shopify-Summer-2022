@@ -74,7 +74,7 @@ const Card = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   background: #ffffff;
-  border: 5px solid #f5f7fa;
+  border: 2px solid #f5f7fa;
   box-sizing: border-box;
   box-shadow: 0px 8px 24px #eff3f9;
   border-radius: 40px;
@@ -82,12 +82,7 @@ const Card = styled.div`
   margin: 0.3rem;
   width: 60%;
   border: ${(props) =>
-    props.chosen ? "2px solid #DBEFF4" : "5px solid #f5f7fa"};
-  &:hover {
-    color: black;
-    background: #e6e6e6;
-    border: 2px solid #d2d2d4;
-  }
+    props.chosen ? "2px solid #DBEFF4" : "2px solid #f5f7fa"};
 `;
 
 function App() {

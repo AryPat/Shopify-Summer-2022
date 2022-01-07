@@ -5,7 +5,7 @@
  * @returns {String} the string csv
  */
 const createCSV = (inventory) => {
-  const headers = ["name", "price", "description", "quantity", "brand"];
+  const headers = ["_id","name", "price", "description", "quantity", "brand"];
 
   // Append headers into string equivalent of csv
   let csv = headers.join(",");

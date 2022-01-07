@@ -1,5 +1,5 @@
 const inventorySchema = require("../models/inventory.model");
-const exportCSV = require("../exportCSV.js");
+const exportCSV = require("../services/exportCSV.js");
 const router = require("express").Router();
 
 router.put("/csv", (req, res) => {
@@ -10,15 +10,18 @@ router.put("/csv", (req, res) => {
     { id: "quantity", title: "Quantity" },
     { id: "brand", title: "Inventory Brand" },
   ];
-  console.log(req.body);
-  exportCSV.csvExporter("InventoryData.csv", headers).writeRecords(req.body);
-  res.status(200);
+  try {
+    exportCSV.csvExporter("InventoryData.csv", headers).writeRecords(req.body);
+    res.status(200).json("Successfully Downloaded InventoryData.csv");
+  }catch(err){
+    res.status(500)
+  }
 });
 
 router.get("/", (req, res) => {
   inventorySchema.find().then((items) => {
     res.status(200).json(items ?? []);
-  });
+  }).catch(err => res.status(400).json(err))
 });
 
 router.post("/", (req, res) => {

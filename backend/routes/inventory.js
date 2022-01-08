@@ -3,10 +3,16 @@ const router = require("express").Router();
 const { createCSV } = require("../services/ExportCsv.js");
 
 /**
- * Get inventory as a CSV
- *
- * @param {Object} req the request body
- * @param {Object} res the response object
+ * @swagger
+ * /csv:
+ *  get:
+ *    description: Get CSV file
+ *    summary: Get all inventory data as a downloadable CSV file
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '400':
+ *        description: Bad Request
  */
 router.get("/csv", (req, res) => {
   inventorySchema
@@ -20,9 +26,16 @@ router.get("/csv", (req, res) => {
 });
 
 /**
- * Get all inventory
- *
- * @param {Object} req the request body
+ * @swagger
+ * /:
+ *  get:
+ *    description: Get all Inventory data
+ *    summary: Get all inventory data
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '400':
+ *        description: Bad Request
  */
 router.get("/", (req, res) => {
   inventorySchema
@@ -34,10 +47,29 @@ router.get("/", (req, res) => {
 });
 
 /**
- * Get inventory as a CSV
- *
- * @param {Object} req the request body
- * @param {Object} res the response object
+ * @swagger
+ * /:
+ *  post:
+ *    description: Create new inventory item
+ *    summary: Create new inventory item
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "body"
+ *      name: "body"
+ *      description: "Inventory object that needs to be added"
+ *      required: true
+ *      schema:
+ *        $ref: "#/definitions/Inventory"
+ *    responses:
+ *      '200':
+ *        description: Inventory item successfully created
+ *      '400':
+ *        description: Bad Request
+ *      '405':
+ *        description: Schema Validation
  */
 router.post("/", (req, res) => {
   const { name, price, description, quantity, brand } = req.body;
@@ -51,42 +83,92 @@ router.post("/", (req, res) => {
   newItem
     .save()
     .then(() => res.status(200).json(newItem))
-    .catch((err) => res.status(400).json(err));
+    .catch((err) => {
+      err.name === "ValidationError"
+        ? res.status(405).json(err.message)
+        : res.status(400).json(err);
+    });
 });
 
 /**
- * Edit specific inventory item
- *
- * @param {Object} req the request body
- * @param {Object} res the response object
- * @query {String} id the inventory object id
+ * @swagger
+ * /{id}:
+ *  put:
+ *    description: Edit existing inventory item
+ *    summary: Edit existing inventory item
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "id"
+ *      description: "ID of inventory"
+ *      required: true
+ *    - in: "body"
+ *      name: "body"
+ *      description: "Updated inventory item"
+ *      required: true
+ *      schema:
+ *        $ref: "#/definitions/Inventory"
+ *    responses:
+ *      '200':
+ *        description: Inventory item successfully updated
+ *      '400':
+ *        description: Bad Request
+ *      '404':
+ *        description: Inventory not found
+ *      '405':
+ *        description: Schema Validation
  */
 router.put("/:id", (req, res) => {
-  inventorySchema.findById(req.params.id).then((newInventory) => {
-    for (const element in req.body) {
-      newInventory[element] = req.body[element];
+  inventorySchema.findById(req.params.id, function (err, newInventory) {
+    if (newInventory === null || newInventory == null) {
+      res
+        .status(404)
+        .json(`Inventory with the id '${req.params.id}' not found!`);
+    } else {
+      for (const element in req.body) {
+        newInventory[element] = req.body[element];
+      }
+      newInventory
+        .save()
+        .then(() => res.status(200).json(newInventory))
+        .catch((err) => {
+          err.name === "ValidationError"
+            ? res.status(405).json(err.message)
+            : res.status(400).json(err);
+        });
     }
-    newInventory
-      .save()
-      .then(() => res.status(200).json(newInventory))
-      .catch((err) => res.status(400).json(err));
   });
 });
 
 /**
- * Delete specific inventory
- *
- * @param {Object} req the request body
- * @param {Object} res the response object
- * @query {String} id the inventory object id
+ * @swagger
+ * /{id}:
+ *  delete:
+ *    description: Delete inventory item
+ *    summary: Delete inventory item
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "id"
+ *      description: "ID of inventory"
+ *      required: true
+ *    responses:
+ *      '200':
+ *        description: Inventory item successfully deleted
+ *      '404':
+ *        description: Inventory not found
  */
 router.delete("/:id", (req, res) => {
-  inventorySchema.findByIdAndRemove(req.params.id, function (err) {
-    if (!err) {
-      res.status(200).json(`Inventory Item by the id ${req.params.id} deleted`);
-    } else {
-      return res.status(400).send();
-    }
+  inventorySchema.findByIdAndRemove(req.params.id, function (err, message) {
+    message === null || message == null
+      ? res
+          .status(404)
+          .json(`Inventory with the id '${req.params.id}' not found!`)
+      : res.status(200).json(message);
   });
 });
 

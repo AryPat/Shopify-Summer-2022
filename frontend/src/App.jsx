@@ -63,10 +63,7 @@ function App() {
       quantity: quantity,
       brand: brand,
     };
-    await axios.post(
-      "http://localhost:5000/inventory/",
-      newInventoryObject
-    );
+    await axios.post("http://localhost:5000/inventory/", newInventoryObject);
   };
 
   // Edit inventory item

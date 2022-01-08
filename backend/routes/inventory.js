@@ -14,15 +14,12 @@ const { createCSV } = require("../services/ExportCsv.js");
  *      '400':
  *        description: Bad Request
  */
- router.get("/inventory/csv", (req, res) => {
+router.get("/inventory/csv", (req, res) => {
   inventorySchema
     .find()
     .then((inventory) => {
       res.setHeader("'Content-Type'", "'application/text'");
-      res.attachment(
-        `Inventory-${new Date()
-          .toISOString()}.csv`
-      );
+      res.attachment(`Inventory-${new Date().toISOString()}.csv`);
       res.send(createCSV(inventory));
     })
     .catch((err) => res.status(400).json(err));
@@ -75,12 +72,10 @@ router.get("/inventory/", (req, res) => {
   inventorySchema
     .find()
     .then((items) => {
-      res.status(200).json(
-        {
-          count: items.length,
-          items,
-        }
-      );
+      res.status(200).json({
+        count: items.length,
+        items,
+      });
     })
     .catch((err) => res.status(400).json(err));
 });
@@ -101,7 +96,7 @@ router.get("/inventory/", (req, res) => {
  *      description: "Inventory object that needs to be added"
  *      required: true
  *      schema:
- *        $ref: "#/definitions/Inventory"
+ *        $ref: "#/definitions/CreateInventoryObject"
  *    responses:
  *      '200':
  *        description: Inventory item successfully created

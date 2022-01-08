@@ -7,7 +7,7 @@ const db = mongoose.connection;
 const inventoryRouter = require("./routes/inventory");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
-const path = require("path")
+const path = require("path");
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -26,7 +26,6 @@ const swaggerOptions = {
         properties: {
           name: {
             type: "string",
-            default: ""
           },
           price: {
             type: "integer",
@@ -34,16 +33,45 @@ const swaggerOptions = {
           },
           description: {
             type: "string",
-            default: ""
           },
           quantity: {
             type: "integer",
             format: "int64",
-            default: 1
           },
           brand: {
             type: "string",
-            default: ""
+          },
+          createdBy: {
+            type: "string",
+          },
+          updatedBy: {
+            type: "string",
+          },
+        },
+      },
+      CreateInventoryObject: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            default: "",
+          },
+          price: {
+            type: "integer",
+            format: "int64",
+          },
+          description: {
+            type: "string",
+            default: "",
+          },
+          quantity: {
+            type: "integer",
+            format: "int64",
+            default: 1,
+          },
+          brand: {
+            type: "string",
+            default: "",
           },
         },
       },

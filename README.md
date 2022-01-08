@@ -21,7 +21,7 @@ The goal of the challenge was to create a backend application solely for keeping
     <a href="https://www.javascript.com/" target="blank"><img src="frontend/assets/java.svg" alt="Logo" width=50/></a>
     <a href="https://expressjs.com/" target="blank"><img src="frontend/assets/ex.svg" alt="Logo" width=50/></a>
     <a href="https://github.com/" target="blank"><img src="frontend/assets/react.svg" alt="Logo" width=50/></a>
-    <a href="https://github.com/" target="blank"><img src="frontend/assets/Github.svg" alt="Logo" width=50/></a>
+    <a href="https://github.com/" target="blank"><img src="frontend/assets/github.svg" alt="Logo" width=50/></a>
 </div>
 
 - Node, Express, Javascript, MongoDB (Backend)

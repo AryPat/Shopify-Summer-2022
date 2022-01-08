@@ -18,7 +18,7 @@ const swaggerOptions = {
         name: "Aryan Patel",
       },
     },
-    host: ["localhost:5000"],
+    host: ["shopify-summer-2022.herokuapp.com"],
     schemes: ["http"],
     definitions: {
       Inventory: {

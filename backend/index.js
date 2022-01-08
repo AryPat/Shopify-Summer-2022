@@ -26,6 +26,7 @@ const swaggerOptions = {
         properties: {
           name: {
             type: "string",
+            default: ""
           },
           price: {
             type: "integer",
@@ -33,13 +34,16 @@ const swaggerOptions = {
           },
           description: {
             type: "string",
+            default: ""
           },
           quantity: {
             type: "integer",
             format: "int64",
+            default: 1
           },
           brand: {
             type: "string",
+            default: ""
           },
         },
       },

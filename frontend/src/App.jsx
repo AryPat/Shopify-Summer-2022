@@ -159,7 +159,7 @@ function App() {
           Export Data to CSV
         </Enter>
       </Buttons>
-      {inventory.length != 0 && (
+      {inventory.items.length !== 0 && (
         <Card style={{ background: "#DBEFF4" }}>
           <div>Name</div>
           <div>Price</div>
@@ -169,18 +169,18 @@ function App() {
         </Card>
       )}
 
-      {inventory.length == 0 && (
+      {inventory.items.length === 0 && (
         <Card>There is no Inventory at this moment.</Card>
       )}
 
-      {Object.keys(inventory).map(function (key, index) {
+      {Object.keys(inventory.items).map(function (key, index) {
         return (
           <Card onClick={() => setSelected(index)} chosen={selected == index}>
-            <div>{inventory[key].name}</div>
-            <div>{inventory[key].price}</div>
-            <div>{inventory[key].description}</div>
-            <div>{inventory[key].quantity}</div>
-            <div>{inventory[key].brand}</div>
+            <div>{inventory.items[key].name}</div>
+            <div>{inventory.items[key].price}</div>
+            <div>{inventory.items[key].description}</div>
+            <div>{inventory.items[key].quantity}</div>
+            <div>{inventory.items[key].brand}</div>
           </Card>
         );
       })}

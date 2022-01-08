@@ -19,7 +19,7 @@ const swaggerOptions = {
       },
     },
     host: ["shopify-summer-2022.herokuapp.com"],
-    schemes: ["http"],
+    schemes: ["https"],
     definitions: {
       Inventory: {
         type: "object",

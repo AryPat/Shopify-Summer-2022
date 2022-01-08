@@ -1,93 +1,21 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import styled from "styled-components";
 import axios from "axios";
 import Modal from "react-modal";
-
-const Container = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  font-family: "Francois One", sans-serif;
-`;
-
-const Title = styled.div`
-  font-size: 3rem;
-  margin-top: 2rem;
-`;
-
-const Buttons = styled.div`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 1rem;
-`;
-
-const Enter = styled.button`
-  justify-self: start;
-  align-self: center;
-  background: #ffffff;
-  font-size: 1rem;
-  border: 5px solid #f5f7fa;
-  box-sizing: border-box;
-  box-shadow: 0px 8px 24px #eff3f9;
-  border-radius: 40px;
-  padding: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  &:enabled {
-    &:hover {
-      color: black;
-      background: #e6e6e6;
-      border: 5px solid #d2d2d4;
-    }
-  }
-`;
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
-const First = styled.div`
-  justify-self: end;
-  align-self: center;
-  background: #ffffff;
-  border: 5px solid #f5f7fa;
-  box-sizing: border-box;
-  box-shadow: 0px 8px 24px #eff3f9;
-  border-radius: 40px;
-  padding: 1rem;
-  width: 100%;
-`;
-
-const Card = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  background: #ffffff;
-  border: 2px solid #f5f7fa;
-  box-sizing: border-box;
-  box-shadow: 0px 8px 24px #eff3f9;
-  border-radius: 40px;
-  padding: 1rem;
-  margin: 0.3rem;
-  width: 60%;
-  border: ${(props) =>
-    props.chosen ? "2px solid #DBEFF4" : "2px solid #f5f7fa"};
-`;
+import {
+  Container,
+  Title,
+  Buttons,
+  Enter,
+  First,
+  customStyles,
+  Card,
+} from "./AppStyle";
 
 function App() {
   Modal.setAppElement("#root");
 
+  // useStates
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -99,12 +27,14 @@ function App() {
   const [selected, setSelected] = useState(-1);
   const [edit, setEdit] = useState(false);
 
+  // Update page once you submit a new inventory
   useEffect(() => {
-    axios.get("http://localhost:5000/api/inventory/").then((res) => {
-      setInventory(res.data);
+    axios.get("http://localhost:5000/inventory/").then((res) => {
+      setInventory(res.data.items);
     });
   }, [submitted]);
 
+  // Lock buttons if you are not selecting anything
   useEffect(() => {
     selected == -1 || inventory.length == 0
       ? (document.getElementById("DeleteButton").disabled = true)
@@ -115,6 +45,7 @@ function App() {
       : (document.getElementById("EditButton").disabled = false);
   }, [selected, inventory]);
 
+  // Reset input fields
   const resetInputs = () => {
     setName("");
     setPrice("");
@@ -123,6 +54,7 @@ function App() {
     setBrand("");
   };
 
+  // Submit new inventory item
   const submitNewInventoryItem = async () => {
     const newInventoryObject = {
       name: name,
@@ -131,12 +63,10 @@ function App() {
       quantity: quantity,
       brand: brand,
     };
-    await axios.post(
-      "http://localhost:5000/api/inventory/",
-      newInventoryObject
-    );
+    await axios.post("http://localhost:5000/inventory/", newInventoryObject);
   };
 
+  // Edit inventory item
   const editInventoryItem = async () => {
     const editedInventoryObject = {
       name: name,
@@ -146,33 +76,36 @@ function App() {
       brand: brand,
     };
     await axios.put(
-      `http://localhost:5000/api/inventory/${inventory[selected]._id}`,
+      `http://localhost:5000/inventory/${inventory[selected]._id}`,
       editedInventoryObject
     );
   };
 
+  // Delete Inventory Item
   const deleteInventoryItem = async () => {
     await axios.delete(
-      `http://localhost:5000/api/inventory/${inventory[selected]._id}`
+      `http://localhost:5000/inventory/${inventory[selected]._id}`
     );
   };
 
+  // Download CSV file
   const exportCSV = async () => {
     axios({
-      url: 'http://localhost:5000/api/inventory/csv', //your url
-      method: 'GET',
-      responseType: 'blob', // important
+      url: "http://localhost:5000/inventory/csv", //your url
+      method: "GET",
+      responseType: "blob", // important
     }).then((response) => {
-      console.log(response)
-       const url = window.URL.createObjectURL(new Blob([response.data]));
-       const link = document.createElement('a');
-       link.href = url;
-       link.setAttribute('download', 'file.csv'); //or any other extension
-       document.body.appendChild(link);
-       link.click();
+      console.log(response);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "file.csv"); //or any other extension
+      document.body.appendChild(link);
+      link.click();
     });
   };
 
+  // Populate model with inventory item that exists
   const populateModel = () => {
     setName(inventory[selected].name);
     setPrice(inventory[selected].price);

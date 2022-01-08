@@ -17,7 +17,7 @@ const swaggerOptions = {
         name: "Aryan Patel",
       },
     },
-    host: ["localhost:5000/api/inventory"],
+    host: ["localhost:5000"],
     schemes: ["http"],
     definitions: {
       Inventory: {
@@ -52,7 +52,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(express.json());
 app.use(cors());
-app.use("/api/inventory", inventoryRouter);
+app.use("/", inventoryRouter);
 
 /**
  * @see https://mongoosejs.com/docs/migrating_to_6.html#no-more-deprecation-warning-options

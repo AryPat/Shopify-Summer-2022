@@ -4,7 +4,38 @@ const { createCSV } = require("../services/ExportCsv.js");
 
 /**
  * @swagger
- * /csv:
+ * /inventory/{id}:
+ *  get:
+ *    description: Get inventory item by id
+ *    summary: Get inventory item by id
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "id"
+ *      description: "ID of inventory"
+ *      required: true
+ *    responses:
+ *      '200':
+ *        description: Inventory item successfully fetched
+ *      '404':
+ *        description: Inventory not found
+ */
+router.get("/inventory/:id", (req, res) => {
+  inventorySchema.findById(req.params.id, function (err, newInventory) {
+    if (newInventory === null || newInventory == null) {
+      res
+        .status(404)
+        .json(`Inventory with the id '${req.params.id}' not found!`);
+    } else {
+      res.status(200).json(newInventory);
+    }
+  });
+});
+
+/**
+ * @swagger
+ * /inventory/csv:
  *  get:
  *    description: Get CSV file
  *    summary: Get all inventory data as a downloadable CSV file
@@ -14,12 +45,18 @@ const { createCSV } = require("../services/ExportCsv.js");
  *      '400':
  *        description: Bad Request
  */
-router.get("/csv", (req, res) => {
+router.get("/inventory/csv", (req, res) => {
   inventorySchema
     .find()
     .then((inventory) => {
       res.setHeader("'Content-Type'", "'application/text'");
-      res.attachment("stupid.csv");
+      res.attachment(
+        `Inventory-${new Date()
+          .toLocaleString()
+          .replace(",", "")
+          .replace(/:.. /, " ")
+          .replace("-", ":")}csv`
+      );
       res.send(createCSV(inventory));
     })
     .catch((err) => res.status(400).json(err));
@@ -27,7 +64,7 @@ router.get("/csv", (req, res) => {
 
 /**
  * @swagger
- * /:
+ * /inventory:
  *  get:
  *    description: Get all Inventory data
  *    summary: Get all inventory data
@@ -37,7 +74,7 @@ router.get("/csv", (req, res) => {
  *      '400':
  *        description: Bad Request
  */
-router.get("/", (req, res) => {
+router.get("/inventory/", (req, res) => {
   inventorySchema
     .find()
     .then((items) => {
@@ -48,7 +85,7 @@ router.get("/", (req, res) => {
 
 /**
  * @swagger
- * /:
+ * /inventory:
  *  post:
  *    description: Create new inventory item
  *    summary: Create new inventory item
@@ -71,7 +108,7 @@ router.get("/", (req, res) => {
  *      '405':
  *        description: Schema Validation
  */
-router.post("/", (req, res) => {
+router.post("/inventory/", (req, res) => {
   const { name, price, description, quantity, brand } = req.body;
   const newItem = new inventorySchema({
     name,
@@ -92,7 +129,7 @@ router.post("/", (req, res) => {
 
 /**
  * @swagger
- * /{id}:
+ * /inventory/{id}:
  *  put:
  *    description: Edit existing inventory item
  *    summary: Edit existing inventory item
@@ -121,7 +158,7 @@ router.post("/", (req, res) => {
  *      '405':
  *        description: Schema Validation
  */
-router.put("/:id", (req, res) => {
+router.put("/inventory/:id", (req, res) => {
   inventorySchema.findById(req.params.id, function (err, newInventory) {
     if (newInventory === null || newInventory == null) {
       res
@@ -145,7 +182,7 @@ router.put("/:id", (req, res) => {
 
 /**
  * @swagger
- * /{id}:
+ * /inventory/{id}:
  *  delete:
  *    description: Delete inventory item
  *    summary: Delete inventory item
@@ -162,7 +199,7 @@ router.put("/:id", (req, res) => {
  *      '404':
  *        description: Inventory not found
  */
-router.delete("/:id", (req, res) => {
+router.delete("/inventory/:id", (req, res) => {
   inventorySchema.findByIdAndRemove(req.params.id, function (err, message) {
     message === null || message == null
       ? res

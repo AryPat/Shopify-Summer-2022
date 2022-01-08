@@ -12,6 +12,7 @@ import {
   Card,
 } from "./AppStyle";
 
+const url = "shopify-summer-2022.herokuapp.com"
 function App() {
   Modal.setAppElement("#root");
 
@@ -29,7 +30,7 @@ function App() {
 
   // Update page once you submit a new inventory
   useEffect(() => {
-    axios.get("http://localhost:5000/inventory/").then((res) => {
+    axios.get(`${url}/inventory/`).then((res) => {
       setInventory(res.data.items);
     });
   }, [submitted]);
@@ -63,7 +64,7 @@ function App() {
       quantity: quantity,
       brand: brand,
     };
-    await axios.post("http://localhost:5000/inventory/", newInventoryObject);
+    await axios.post(`${url}/inventory/`, newInventoryObject);
   };
 
   // Edit inventory item
@@ -76,7 +77,7 @@ function App() {
       brand: brand,
     };
     await axios.put(
-      `http://localhost:5000/inventory/${inventory[selected]._id}`,
+      `${url}/inventory/${inventory[selected]._id}`,
       editedInventoryObject
     );
   };
@@ -84,14 +85,14 @@ function App() {
   // Delete Inventory Item
   const deleteInventoryItem = async () => {
     await axios.delete(
-      `http://localhost:5000/inventory/${inventory[selected]._id}`
+      `${url}/inventory/${inventory[selected]._id}`
     );
   };
 
   // Download CSV file
   const exportCSV = async () => {
     axios({
-      url: "http://localhost:5000/inventory/csv", //your url
+      url: `${url}/inventory/csv`, //your url
       method: "GET",
       responseType: "blob", // important
     }).then((response) => {

@@ -11,7 +11,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
-      title: "Inventory Manager",
+      title: "API - Inventory Manager",
       description: "Inventory Manager Information",
       contact: {
         name: "Aryan Patel",

@@ -15,8 +15,12 @@ const swaggerOptions = {
       title: "API - Inventory Manager",
       description: "Inventory Manager Information",
       contact: {
-        name: "Aryan Patel",
+        email: "Aryan Patel",
       },
+      license: {
+        name: "Apache 2.0",
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
     },
     host: ["shopify-summer-2022.herokuapp.com"],
     schemes: ["https"],

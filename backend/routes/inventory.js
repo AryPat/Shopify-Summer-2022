@@ -1,6 +1,6 @@
 const inventorySchema = require("../models/inventory.model");
 const router = require("express").Router();
-const { createCSV } = require("../services/ExportCsv.js");
+const { createCSV } = require("../services/exportCSV.js");
 
 /**
  * @swagger

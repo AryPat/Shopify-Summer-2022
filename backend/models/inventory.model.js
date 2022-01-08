@@ -30,7 +30,7 @@ const inventorySchema = new Schema(
     description: {
       type: String,
       trim: true,
-      required: true,
+      required: "Description must not be empty!"
       maxlength: 120,
     },
     quantity: {
@@ -40,7 +40,7 @@ const inventorySchema = new Schema(
     },
     brand: {
       type: String,
-      required: "Brand type must be provided!",
+      required: "Brand must not be empty!",
     },
   },
   { timestamps: true }

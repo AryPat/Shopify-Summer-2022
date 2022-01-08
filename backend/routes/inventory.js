@@ -144,7 +144,7 @@ router.post("/inventory/", (req, res) => {
  *      description: "Updated inventory item"
  *      required: true
  *      schema:
- *        $ref: "#/definitions/Inventory"
+ *        $ref: "#/definitions/CreateInventoryObject"
  *    responses:
  *      '200':
  *        description: Inventory item successfully updated

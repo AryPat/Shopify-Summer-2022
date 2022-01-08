@@ -8,8 +8,8 @@
 
 # Description
 ## Goal and Purpose
-The goal of the challenge was to create a backend application solely for keeping track of a companies inventory. The user is able to 
-- See the list of inventory items existing on the systme 
+The goal of the challenge was to create a backend application solely for keeping track of a company's inventory. The user is able to 
+- See the list of inventory items existing on the system 
 - Create a new inventory item 
 - Edit an existing inventory item 
 - Delete an inventory item
@@ -37,11 +37,9 @@ The goal of the challenge was to create a backend application solely for keeping
 # Local Installation
 
 ## Prerequisites
-> Require Node 16.X.X + 
-
-> Cloning of `Shopify-Summer-2022` onto your machine 
-
-> Creating your own [MongoDB Connection URL](https://docs.mongodb.com/manual/reference/connection-string/)
+- Require Node 16.X.X + 
+- git clone [Shopify-Summer-2022](https://github.com/AryPat/Shopify-Summer-2022) onto your machine 
+- Creating your own [MongoDB Connection URL](https://docs.mongodb.com/manual/reference/connection-string/)
 
 You must then also create a `.env` file inside `Shopify-Summer-2022` folder with
 ```

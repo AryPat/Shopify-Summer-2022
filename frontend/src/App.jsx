@@ -12,7 +12,6 @@ import {
   Card,
 } from "./AppStyle";
 
-const url = "shopify-summer-2022.herokuapp.com"
 function App() {
   Modal.setAppElement("#root");
 
@@ -30,7 +29,7 @@ function App() {
 
   // Update page once you submit a new inventory
   useEffect(() => {
-    axios.get(`${url}/inventory/`).then((res) => {
+    axios.get(`/inventory/`).then((res) => {
       setInventory(res.data.items);
     });
   }, [submitted]);
@@ -77,7 +76,7 @@ function App() {
       brand: brand,
     };
     await axios.put(
-      `${url}/inventory/${inventory[selected]._id}`,
+      `/inventory/${inventory[selected]._id}`,
       editedInventoryObject
     );
   };
@@ -85,14 +84,14 @@ function App() {
   // Delete Inventory Item
   const deleteInventoryItem = async () => {
     await axios.delete(
-      `${url}/inventory/${inventory[selected]._id}`
+      `/inventory/${inventory[selected]._id}`
     );
   };
 
   // Download CSV file
   const exportCSV = async () => {
     axios({
-      url: `${url}/inventory/csv`, //your url
+      url: `/inventory/csv`, //your url
       method: "GET",
       responseType: "blob", // important
     }).then((response) => {
@@ -159,7 +158,7 @@ function App() {
           Export Data to CSV
         </Enter>
       </Buttons>
-      {inventory.items.length !== 0 && (
+      {inventory.length != 0 && (
         <Card style={{ background: "#DBEFF4" }}>
           <div>Name</div>
           <div>Price</div>
@@ -169,18 +168,18 @@ function App() {
         </Card>
       )}
 
-      {inventory.items.length === 0 && (
+      {inventory.length == 0 && (
         <Card>There is no Inventory at this moment.</Card>
       )}
 
-      {Object.keys(inventory.items).map(function (key, index) {
+      {Object.keys(inventory).map(function (key, index) {
         return (
           <Card onClick={() => setSelected(index)} chosen={selected == index}>
-            <div>{inventory.items[key].name}</div>
-            <div>{inventory.items[key].price}</div>
-            <div>{inventory.items[key].description}</div>
-            <div>{inventory.items[key].quantity}</div>
-            <div>{inventory.items[key].brand}</div>
+            <div>{inventory[key].name}</div>
+            <div>{inventory[key].price}</div>
+            <div>{inventory[key].description}</div>
+            <div>{inventory[key].quantity}</div>
+            <div>{inventory[key].brand}</div>
           </Card>
         );
       })}

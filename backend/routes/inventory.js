@@ -4,6 +4,32 @@ const { createCSV } = require("../services/ExportCsv.js");
 
 /**
  * @swagger
+ * /inventory/csv:
+ *  get:
+ *    description: Get CSV file
+ *    summary: Get all inventory data as a downloadable CSV file
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ *      '400':
+ *        description: Bad Request
+ */
+ router.get("/inventory/csv", (req, res) => {
+  inventorySchema
+    .find()
+    .then((inventory) => {
+      res.setHeader("'Content-Type'", "'application/text'");
+      res.attachment(
+        `Inventory-${new Date()
+          .toISOString()}.csv`
+      );
+      res.send(createCSV(inventory));
+    })
+    .catch((err) => res.status(400).json(err));
+});
+
+/**
+ * @swagger
  * /inventory/{id}:
  *  get:
  *    description: Get inventory item by id
@@ -35,35 +61,6 @@ router.get("/inventory/:id", (req, res) => {
 
 /**
  * @swagger
- * /inventory/csv:
- *  get:
- *    description: Get CSV file
- *    summary: Get all inventory data as a downloadable CSV file
- *    responses:
- *      '200':
- *        description: A successful response
- *      '400':
- *        description: Bad Request
- */
-router.get("/inventory/csv", (req, res) => {
-  inventorySchema
-    .find()
-    .then((inventory) => {
-      res.setHeader("'Content-Type'", "'application/text'");
-      res.attachment(
-        `Inventory-${new Date()
-          .toLocaleString()
-          .replace(",", "")
-          .replace(/:.. /, " ")
-          .replace("-", ":")}csv`
-      );
-      res.send(createCSV(inventory));
-    })
-    .catch((err) => res.status(400).json(err));
-});
-
-/**
- * @swagger
  * /inventory:
  *  get:
  *    description: Get all Inventory data
@@ -78,7 +75,12 @@ router.get("/inventory/", (req, res) => {
   inventorySchema
     .find()
     .then((items) => {
-      res.status(200).json(items ?? []);
+      res.status(200).json(
+        {
+          count: items.length,
+          items,
+        }
+      );
     })
     .catch((err) => res.status(400).json(err));
 });

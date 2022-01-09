@@ -80,3 +80,15 @@ export const Card = styled.div`
   border: ${(props) =>
     props.chosen ? "2px solid #DBEFF4" : "2px solid #f5f7fa"};
 `;
+
+export const Links = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ATag = styled.a`
+  margin-left: 1rem;
+`;

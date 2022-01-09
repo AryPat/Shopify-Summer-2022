@@ -10,6 +10,8 @@ import {
   First,
   customStyles,
   Card,
+  Links,
+  ATag,
 } from "./AppStyle";
 
 function App() {
@@ -83,9 +85,7 @@ function App() {
 
   // Delete Inventory Item
   const deleteInventoryItem = async () => {
-    await axios.delete(
-      `/inventory/${inventory[selected]._id}`
-    );
+    await axios.delete(`/inventory/${inventory[selected]._id}`);
   };
 
   // Download CSV file
@@ -99,7 +99,10 @@ function App() {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `Inventory-${new Date().toISOString()}.csv`); //or any other extension
+      link.setAttribute(
+        "download",
+        `Inventory-${new Date().toISOString()}.csv`
+      ); //or any other extension
       document.body.appendChild(link);
       link.click();
     });
@@ -117,6 +120,12 @@ function App() {
   return (
     <Container>
       <Title>Inventory Manager</Title>
+      <Links>
+        <ATag href="https://shopify-summer-2022.herokuapp.com/api-docs/">
+          Swagger
+        </ATag>
+        <ATag href="https://github.com/AryPat/Shopify-Summer-2022">Github</ATag>
+      </Links>
       <Buttons>
         <Enter
           enabled
@@ -158,23 +167,10 @@ function App() {
           Export Data to CSV
         </Enter>
       </Buttons>
-      {inventory.length != 0 && (
-        <Card style={{ background: "#DBEFF4" }}>
-          <div>Name</div>
-          <div>Price</div>
-          <div>Description</div>
-          <div>Quantity</div>
-          <div>Brand</div>
-        </Card>
-      )}
-
-      {inventory.length == 0 && (
-        <Card>There is no Inventory at this moment.</Card>
-      )}
-
       {Object.keys(inventory).map(function (key, index) {
         return (
           <Card onClick={() => setSelected(index)} chosen={selected == index}>
+            <div>{inventory[key]._id}</div>
             <div>{inventory[key].name}</div>
             <div>{inventory[key].price}</div>
             <div>{inventory[key].description}</div>

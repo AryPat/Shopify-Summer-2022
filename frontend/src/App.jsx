@@ -169,7 +169,7 @@ function App() {
         <Card style={{ background: "#DBEFF4" }}>
           <Item>ID</Item>
           <Item>Name</Item>
-          <Item>Price</Item>
+          <Item>Price($)</Item>
           <Item>Description</Item>
           <Item>Quantity</Item>
           <Item>Brand</Item>
@@ -185,7 +185,7 @@ function App() {
           <Card onClick={() => setSelected(index)} chosen={selected == index}>
             <Item>{inventory[key]._id.slice(0,10)+'...'}</Item>
             <Item>{inventory[key].name}</Item>
-            <Item>{inventory[key].price}</Item>
+            <Item>{'$'+inventory[key].price}</Item>
             <Item>{inventory[key].description}</Item>
             <Item>{inventory[key].quantity}</Item>
             <Item>{inventory[key].brand}</Item>

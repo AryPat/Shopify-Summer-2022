@@ -12,6 +12,7 @@ import {
   Card,
   Links,
   ATag,
+  Item
 } from "./AppStyle";
 
 function App() {
@@ -166,12 +167,12 @@ function App() {
       </Buttons>
       {inventory.length != 0 && (
         <Card style={{ background: "#DBEFF4" }}>
-          <div>ID</div>
-          <div>Name</div>
-          <div>Price</div>
-          <div>Description</div>
-          <div>Quantity</div>
-          <div>Brand</div>
+          <Item>ID</Item>
+          <Item>Name</Item>
+          <Item>Price</Item>
+          <Item>Description</Item>
+          <Item>Quantity</Item>
+          <Item>Brand</Item>
         </Card>
       )}
 
@@ -182,12 +183,12 @@ function App() {
       {Object.keys(inventory).map(function (key, index) {
         return (
           <Card onClick={() => setSelected(index)} chosen={selected == index}>
-            <div>{inventory[key]._id}</div>
-            <div>{inventory[key].name}</div>
-            <div>{inventory[key].price}</div>
-            <div>{inventory[key].description}</div>
-            <div>{inventory[key].quantity}</div>
-            <div>{inventory[key].brand}</div>
+            <Item>{inventory[key]._id.slice(0,10)+'...'}</Item>
+            <Item>{inventory[key].name}</Item>
+            <Item>{inventory[key].price}</Item>
+            <Item>{inventory[key].description}</Item>
+            <Item>{inventory[key].quantity}</Item>
+            <Item>{inventory[key].brand}</Item>
           </Card>
         );
       })}

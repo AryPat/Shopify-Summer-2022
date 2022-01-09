@@ -92,3 +92,11 @@ export const Links = styled.div`
 export const ATag = styled.a`
   margin-left: 1rem;
 `;
+
+export const Item = styled.div`
+    flex-grow: 0;
+    flex-basis: 25%;
+    text-align: center;
+    word-break: break-all;
+    justify-content: center;
+`

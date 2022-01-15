@@ -14,6 +14,9 @@ The goal of the challenge was to create a backend application solely for keeping
 - Edit an existing inventory item 
 - Delete an inventory item
 
+## Additional Feature 
+The addtional feature I have implemented is exporting the data into a csv. The user is able to call the endpoint and the download will automatically begin given they authorize it. 
+
 ## Technologies Used 
 <div style="display:flex;flex-direction:row;width:100%;justify-content:space-evenly;align-items:space-evenly">
     <a href="https://www.mongodb.com/" target="blank"><img src="frontend/assets/mongo.svg" alt="Logo" width=50/></a>

@@ -42,7 +42,7 @@ The addtional feature I have implemented is exporting the data into a csv. The u
 ## Prerequisites
 - Require Node 16.X.X + 
 - git clone [Shopify-Summer-2022](https://github.com/AryPat/Shopify-Summer-2022) onto your machine 
-- Creating your own [MongoDB Connection URL](https://docs.mongodb.com/manual/reference/connection-string/)
+- Create your own [MongoDB Connection URL](https://docs.mongodb.com/manual/reference/connection-string/)
 
 You must then also create a `.env` file inside `Shopify-Summer-2022` folder with
 ```
